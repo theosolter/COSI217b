@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Named Entity Recognition Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <h1>Named Entity Recognition Results</h1>
+    <div>
+      <markup>{{ xml | safe}}</markup>
+    </div>
+  </body>
+</html>
