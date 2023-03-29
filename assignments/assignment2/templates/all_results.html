@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Results</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          padding: 5px;
+        }
+        th {
+          text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>All entities seen so far</h1>
+    <table>
+        <tr>
+            <th>Entity</th>
+            <th>Count</th>
+        </tr>
+        {% for entity in entities %}
+        <tr>
+            <td>{{ entity[0] }}</td>
+            <td>{{ entity[1] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="/">Back to input page</a>
+</body>
+</html>
