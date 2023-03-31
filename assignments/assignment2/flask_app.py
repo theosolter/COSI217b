@@ -11,10 +11,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 @app.route('/api', methods=['GET', 'POST'])
 def api():
     if request.method == 'GET':
-        response = {"message": "This is a RESTful API for named entity recognition. Please use POST method to send your text."}
+        response = {
+            "message": "This is a RESTful API for named entity recognition. Please use POST method to send your text."}
         return jsonify(response)
 
     elif request.method == 'POST':
@@ -24,10 +26,13 @@ def api():
         return jsonify(result)
 
 # Models
+
+
 class NERResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text)
     entities = db.relationship('Entity', backref='result', lazy=True)
+
 
 class Entity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +40,7 @@ class Entity(db.Model):
     text = db.Column(db.String(100))
     result_id = db.Column(db.Integer, db.ForeignKey('ner_result.id'))
     count = db.Column(db.Integer, default=1)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -61,17 +67,20 @@ def index():
                 else:
                     entity = Entity(label=label, text=text, result=ner_result)
                     db.session.add(entity)
-                
+
         db.session.commit()
 
         return render_template('result.html', xml=result)
 
+
 @app.route('/results', methods=['GET'])
 def results():
     # Query the database for all entities and their counts
-    entities = db.session.query(Entity.text, db.func.sum(Entity.count)).group_by(Entity.text).all()
+    entities = db.session.query(Entity.text, db.func.sum(
+        Entity.count)).group_by(Entity.text).all()
     # Render the results template with the query results
     return render_template('all_results.html', entities=entities)
+
 
 if __name__ == '__main__':
     with app.app_context():
